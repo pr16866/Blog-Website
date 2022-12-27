@@ -10,7 +10,7 @@ node_modules
 /coverage
 
 # production
-/client/build
+# /client/build
 # /package-lock.json
 # misc
 .DS_Store
