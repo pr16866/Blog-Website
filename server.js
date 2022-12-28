@@ -24,17 +24,26 @@ connection(process.env.MONGODB_URI || url);
 
 app.use(express.static("images/"));
 
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.join(__dirname, "/client/build")));
-  //  app.use(express.static(path.join(__dirname,"/client/build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build/index.html"));
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.send("piyush");
-  });
-}
+// if (process.env.NODE_ENV == "production") {
+//   app.use(express.static(path.join(__dirname, "/client/build")));
+//   //  app.use(express.static(path.join(__dirname,"/client/build")));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "client/build/index.html"));
+//   });
+// } else {
+//   app.get("/", (req, res) => {
+//     res.send("piyush");
+//   });
+// }
+app.use(express.static(path.join(__dirname, "./client/build")));
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./client/build/index.html"),
+    function (err) {
+      res.status(500).send(err);
+    }
+  );
+});
 
 process.on("unhandledRejection", (error) => {
   console.log("unhandledRejection", error.message);
